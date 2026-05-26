@@ -21,9 +21,10 @@ class Batalhas:
             time.sleep(0.01)
         print("")
 
-    def iniciar_batalha(self):
+    def iniciar_batalha(self,Skip = False):
         if self.playerStats["Sala"] == 0:
-            self.printer_local(f"""Você possui {self.playerStats["Vida"]} de vida e {self.playerStats["Ataque"]} de Ataque.
+            if not Skip:
+                self.printer_local(f"""Você possui {self.playerStats["Vida"]} de vida e {self.playerStats["Ataque"]} de Ataque.
 Já que este esqueleto é bem fraco, vamos aprender os controles... 
 [1] Para atacar
 [2] Para ataque forte (Consome 2 de energia, você gera 1 por turno)
@@ -42,24 +43,24 @@ Vamos iniciar o primeiro turno!""")
         while True:
             self.playerStats["Energia"]+=1
             statsInimigo["Energia"]+=1
-            self.printer_local(f"""Turno:{turno}\nVocê possui {self.playerStats["Vida"]} / {self.playerStats["VidaMax"]} de Vida e {self.playerStats["Energia"]} de energia\
-                    \nO {statsInimigo['Nome']} possui {statsInimigo["Vida"]} de vida""")
+            self.printer_local(f"""Turno:{turno}\nVocê possui"""+colorama.Fore.LIGHTGREEN_EX+ f""" {self.playerStats["Vida"]} / {self.playerStats["VidaMax"]} de Vida"""+colorama.Fore.RESET+f""" e {self.playerStats["Energia"]} de energia\
+                    \nO {statsInimigo['Nome']} possui"""+colorama.Fore.LIGHTGREEN_EX+f""" {statsInimigo["Vida"]} de vida"""+colorama.Fore.RESET)
             ETipoAtk, EDano = self.IaInimigos(inimigo)
-            self.printer_local(f"Seu inimigo irá usar um {ETipoAtk} e dara {EDano}, como você reagirá?\n[1]Ataque leve\n[2]Ataque pesado (2 Energia) \n[3]Defesa")
+            self.printer_local(f"Seu inimigo irá usar um {ETipoAtk} e dara "+colorama.Fore.RED+f"{EDano} de dano"+colorama.Fore.RESET+"., como você reagirá?\n[1]Ataque leve\n[2]Ataque pesado (2 Energia) \n[3]Defesa")
             escolha, DanoPlr = self.ChecarAtaque(input(">"))
             print(escolha)
             match escolha:
                 case "Ataque leve" | "Ataque pesado":
                     statsInimigo["Vida"] -= DanoPlr
                     self.playerStats["Vida"] -= EDano
-                    self.printer_local(f"Você ataca o inimigo com um {escolha}, tirando {DanoPlr} de vida!\n>Ele reage com um {ETipoAtk} te causando {EDano} de dano...")
+                    self.printer_local(f"Você ataca o inimigo com um {escolha},tirando "+colorama.Fore.RED+f" {DanoPlr} de vida!"+colorama.Fore.RESET+f"\n>Ele reage com um {ETipoAtk} te causando "+colorama.Fore.RED+f"{EDano} de dano..."+colorama.Fore.RESET)
                 case "Defesa":
                     if ETipoAtk == "Ataque Fraco":
-                        self.printer_local("Você defendeu um ataque fraco completamente")
+                        self.printer_local("Você defendeu um ataque fraco completamente! Ignorando "+colorama.Fore.BLUE+f"{EDano} de dano."+colorama.Fore.RESET)
                     else:
                         DDano = EDano * 0.5
                         self.playerStats["Vida"] -= DDano
-                        self.printer_local(f"Você defendeu um ataque, recebeu {DDano} de dano! 50% de defesa!")
+                        self.printer_local(f"Você defendeu um ataque, recebeu "+colorama.Fore.BLUE+f"{DDano} de dano! 50% de defesa!"+colorama.Fore.RESET)
             if statsInimigo["Vida"] <= 0 or self.playerStats["Vida"] <= 0:
                 break
             turno+=1

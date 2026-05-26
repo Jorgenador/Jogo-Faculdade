@@ -47,10 +47,12 @@ class CDialogos:
                     else:
                         self.Printer("Então vamos tentar novamente, Digite o seu nome!",preText=False)
             case "Batalha1":
-                self.Printer("Use S/N",preText=False)
+                self.Printer("Use S/N (ou T para skipar o tutorial, bom para rejogar!)",preText=False)
                 resposta = input(">").lower().strip()
                 if resposta == "s":
                     batalha.iniciar_batalha()
+                elif resposta == "t":
+                    batalha.iniciar_batalha(Skip = True)
                 else:
                     self.Printer("Quando estiver pronto apresse enter",preText=False)
                     input(">")
