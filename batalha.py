@@ -1,6 +1,6 @@
 import dialogos
 import time
-
+import colorama
 
 class Batalhas:
 
@@ -36,24 +36,37 @@ Vamos iniciar o primeiro turno!""")
     def loop_batalha(self,inimigo):
         turno = 0
         if inimigo == "EsqueletoTutorial":
-            statsInimigo = self.scaledInimigos(inimigo)
-            self.printer_local(f"--- UM {statsInimigo["Nome"]} apareceu! Ele possui {statsInimigo["Vida"]} de vida e {statsInimigo["Dano"]} de ataque!")
-            print(f"Esse é a sua primeira batalha, ela é divida em turnos! Cada turno que passar você ganhara 1 de energia")
-            while True:
-                self.playerStats["Energia"]+=1
-                statsInimigo["Energia"]+=1
-                self.printer_local(f"""Turno:{turno}\nVocê possui {self.playerStats["Vida"]} / {self.playerStats["VidaMax"]} de Vida e {self.playerStats["Energia"]} de energia\
-                      \nO {statsInimigo['Nome']} possui {statsInimigo["Vida"]} de vida""")
-                TipoAtk, Dano = self.IaInimigos(inimigo)
-                self.printer_local(f"Seu inimigo irá usar um {TipoAtk} e dara {Dano}, como você reagirá?\n[1]Ataque leve\n[2]Ataque pesado (2 Energia) \n[3]Defesa")
-                escolha, DanoPlr = self.ChecarAtaque(input(">"))
-                match escolha:
-                    case "Ataque leve":
-                        pass
-                    case "Ataque Pesado":
-                        pass
-                    case "Defesa":
-                        pass
+            self.printer_local(f"Esse é a sua primeira batalha, ela é divida em turnos! Cada turno que passar você ganhara 1 de energia")
+        statsInimigo = self.scaledInimigos(inimigo)
+        self.printer_local(f"--- UM {statsInimigo["Nome"]} apareceu! Ele possui {statsInimigo["Vida"]} de vida e {statsInimigo["Dano"]} de ataque!")
+        while True:
+            self.playerStats["Energia"]+=1
+            statsInimigo["Energia"]+=1
+            self.printer_local(f"""Turno:{turno}\nVocê possui {self.playerStats["Vida"]} / {self.playerStats["VidaMax"]} de Vida e {self.playerStats["Energia"]} de energia\
+                    \nO {statsInimigo['Nome']} possui {statsInimigo["Vida"]} de vida""")
+            ETipoAtk, EDano = self.IaInimigos(inimigo)
+            self.printer_local(f"Seu inimigo irá usar um {ETipoAtk} e dara {EDano}, como você reagirá?\n[1]Ataque leve\n[2]Ataque pesado (2 Energia) \n[3]Defesa")
+            escolha, DanoPlr = self.ChecarAtaque(input(">"))
+            print(escolha)
+            match escolha:
+                case "Ataque leve" | "Ataque pesado":
+                    statsInimigo["Vida"] -= DanoPlr
+                    self.playerStats["Vida"] -= EDano
+                    self.printer_local(f"Você ataca o inimigo com um {escolha}, tirando {DanoPlr} de vida!\n>Ele reage com um {ETipoAtk} te causando {EDano} de dano...")
+                case "Defesa":
+                    if ETipoAtk == "Ataque Fraco":
+                        self.printer_local("Você defendeu um ataque fraco completamente")
+                    else:
+                        DDano = EDano * 0.5
+                        self.playerStats["Vida"] -= DDano
+                        self.printer_local(f"Você defendeu um ataque, recebeu {DDano} de dano! 50% de defesa!")
+            if statsInimigo["Vida"] <= 0 or self.playerStats["Vida"] <= 0:
+                break
+            turno+=1
+        if statsInimigo["Vida"] <= 0:
+            self.printer_local(f"Você ganhou!! Você possui {self.playerStats["Vida"]} de vida. Vamos para a escolha da sua proxima sala!")
+        elif self.playerStats["Vida"] <= 0:
+            self.printer_local("Você perdeu... acho que foi falta de habilidade...")
 
                 
     def IaInimigos(self,Inimigo):
@@ -66,18 +79,19 @@ Vamos iniciar o primeiro turno!""")
             if int(Escolha.lower().strip()) not in [1,2,3]:
                 self.printer_local("Digite 1,2 ou 3")
                 Escolha = input(">")
-            elif Escolha == 2 and not self.playerStats["Energia"] >= 2:
-                self.printer_local("Você não possui 2 de energia")
+            elif int(Escolha) == 2 and not self.playerStats["Energia"] >= 2:
+                self.printer_local("Você não possui 2 de energia. Escolha outra ação!")
                 Escolha = input(">")
             else:
                 break
-        match Escolha:
+        match int(Escolha):
             case 1:
-                return "Ataque leve"
+                return "Ataque leve",self.playerStats["Ataque"]
             case 2:
-                return "Ataque Pesado"
+                self.playerStats["Energia"]-=2
+                return "Ataque pesado",self.playerStats["Ataque"]*2
             case 3:
-                return "Defesa"
+                return "Defesa",0
 
 
     def scaledInimigos(self,inimigo):
