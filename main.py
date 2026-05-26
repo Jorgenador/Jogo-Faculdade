@@ -1,6 +1,8 @@
 import dialogos
 import batalha
 
+# Começo do desenvolvimento 25/05 as 20:00, basicamente 48 horas antes da deadline
+
 dHandler = dialogos.CDialogos()
 bHandler = batalha.Batalhas()
 
