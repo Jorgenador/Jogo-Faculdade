@@ -76,22 +76,26 @@ Vamos iniciar o primeiro turno!""")
 
     def ChecarAtaque(self,Escolha):
         while True:
-            if int(Escolha.lower().strip()) not in [1,2,3]:
-                self.printer_local("Digite 1,2 ou 3")
+            try:
+                if int(Escolha.lower().strip()) not in [1,2,3]:
+                    self.printer_local("Digite 1,2 ou 3")
+                    Escolha = input(">")
+                elif int(Escolha) == 2 and not self.playerStats["Energia"] >= 2:
+                    self.printer_local("Você não possui "+colorama.Fore.LIGHTBLUE_EX+"2 de energia"+colorama.Fore.RESET+". Escolha outra ação!")
+                    Escolha = input(">")
+                else:
+                    break
+                match int(Escolha):
+                    case 1:
+                        return "Ataque leve",self.playerStats["Ataque"]
+                    case 2:
+                        self.playerStats["Energia"]-=2
+                        return "Ataque pesado",self.playerStats["Ataque"]*2
+                    case 3:
+                        return "Defesa",0
+            except ValueError:
+                self.printer_local("Use os numeros 1,2 ou 3!")
                 Escolha = input(">")
-            elif int(Escolha) == 2 and not self.playerStats["Energia"] >= 2:
-                self.printer_local("Você não possui "+colorama.Fore.LIGHTBLUE_EX+"2 de energia"+colorama.Fore.RESET+". Escolha outra ação!")
-                Escolha = input(">")
-            else:
-                break
-        match int(Escolha):
-            case 1:
-                return "Ataque leve",self.playerStats["Ataque"]
-            case 2:
-                self.playerStats["Energia"]-=2
-                return "Ataque pesado",self.playerStats["Ataque"]*2
-            case 3:
-                return "Defesa",0
 
 
     def scaledInimigos(self,inimigo):
