@@ -39,16 +39,15 @@ Vamos iniciar o primeiro turno!""")
         if inimigo == "EsqueletoTutorial":
             self.printer_local(f"Esse é a sua primeira batalha, ela é divida em turnos! Cada turno que passar você ganhara 1 de energia")
         statsInimigo = self.scaledInimigos(inimigo)
-        self.printer_local(f"--- UM {statsInimigo["Nome"]} apareceu! Ele possui {statsInimigo["Vida"]} de vida e {statsInimigo["Dano"]} de ataque!")
+        self.printer_local(f"Um {statsInimigo["Nome"]} apareceu! Ele possui "+colorama.Fore.LIGHTGREEN_EX+f"{statsInimigo["Vida"]} de Vida"+colorama.Fore.RESET+" e "+colorama.Fore.RED+f"{statsInimigo["Dano"]} de Ataque"+colorama.Fore.RED+"!"+colorama.Fore.RESET)
         while True:
             self.playerStats["Energia"]+=1
             statsInimigo["Energia"]+=1
-            self.printer_local(f"""Turno:{turno}\nVocê possui"""+colorama.Fore.LIGHTGREEN_EX+ f""" {self.playerStats["Vida"]} / {self.playerStats["VidaMax"]} de Vida"""+colorama.Fore.RESET+f""" e {self.playerStats["Energia"]} de energia\
+            self.printer_local(f"""Turno:{turno}\nVocê possui"""+colorama.Fore.LIGHTGREEN_EX+ f""" {self.playerStats["Vida"]} / {self.playerStats["VidaMax"]} de Vida"""+colorama.Fore.RESET+f""" e """+colorama.Fore.LIGHTBLUE_EX+f"""{self.playerStats["Energia"]} de Energia"""+colorama.Fore.RESET+f"""\
                     \nO {statsInimigo['Nome']} possui"""+colorama.Fore.LIGHTGREEN_EX+f""" {statsInimigo["Vida"]} de vida"""+colorama.Fore.RESET)
             ETipoAtk, EDano = self.IaInimigos(inimigo)
-            self.printer_local(f"Seu inimigo irá usar um {ETipoAtk} e dara "+colorama.Fore.RED+f"{EDano} de dano"+colorama.Fore.RESET+"., como você reagirá?\n[1]Ataque leve\n[2]Ataque pesado (2 Energia) \n[3]Defesa")
+            self.printer_local(f"Seu inimigo irá usar um {ETipoAtk} e dara "+colorama.Fore.RED+f"{EDano} de dano"+colorama.Fore.RESET+", como você reagirá?\n[1]Ataque leve\n[2]Ataque pesado "+colorama.Fore.LIGHTBLUE_EX+"(2 Energia)"+colorama.Fore.RESET+" \n[3]Defesa")
             escolha, DanoPlr = self.ChecarAtaque(input(">"))
-            print(escolha)
             match escolha:
                 case "Ataque leve" | "Ataque pesado":
                     statsInimigo["Vida"] -= DanoPlr
@@ -65,7 +64,7 @@ Vamos iniciar o primeiro turno!""")
                 break
             turno+=1
         if statsInimigo["Vida"] <= 0:
-            self.printer_local(f"Você ganhou!! Você possui {self.playerStats["Vida"]} de vida. Vamos para a escolha da sua proxima sala!")
+            self.printer_local(f"Você ganhou!! Você possui {self.playerStats["Vida"]} de vida. Fim da DEMO")
         elif self.playerStats["Vida"] <= 0:
             self.printer_local("Você perdeu... acho que foi falta de habilidade...")
 
@@ -81,7 +80,7 @@ Vamos iniciar o primeiro turno!""")
                 self.printer_local("Digite 1,2 ou 3")
                 Escolha = input(">")
             elif int(Escolha) == 2 and not self.playerStats["Energia"] >= 2:
-                self.printer_local("Você não possui 2 de energia. Escolha outra ação!")
+                self.printer_local("Você não possui "+colorama.Fore.LIGHTBLUE_EX+"2 de energia"+colorama.Fore.RESET+". Escolha outra ação!")
                 Escolha = input(">")
             else:
                 break
