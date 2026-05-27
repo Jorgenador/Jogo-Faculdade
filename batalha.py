@@ -10,10 +10,10 @@ class Batalhas:
         self.playerStats = {
             "Nome":"",
             "Sala":0,
-            "VidaMax":100,
-            "Vida":100,
-            "Ataque":5,
-            "Gold":0,
+            "VidaMax":250,
+            "Vida":250,
+            "Ataque":200,
+            "Gold":1000,
             "Energia":0
         }
 
@@ -55,7 +55,7 @@ Vamos iniciar o primeiro turno!""")
             self.playerStats["Energia"]+=1
             statsInimigo["Energia"]+=1
             print("---"*20)
-            self.printer_local(f"""Turno:{turno}\nVocê possui"""+colorama.Fore.LIGHTGREEN_EX+ f""" {self.playerStats["Vida"]} / {self.playerStats["VidaMax"]} de Vida"""+colorama.Fore.RESET+f""" e """+colorama.Fore.LIGHTBLUE_EX+f"""{self.playerStats["Energia"]} de Energia"""+colorama.Fore.RESET+f"""\
+            self.printer_local(f"""Turno:{turno}\nVocê possui"""+colorama.Fore.LIGHTGREEN_EX+ f""" {round(self.playerStats["Vida"],2)} / {self.playerStats["VidaMax"]} de Vida"""+colorama.Fore.RESET+f""" e """+colorama.Fore.LIGHTBLUE_EX+f"""{self.playerStats["Energia"]} de Energia"""+colorama.Fore.RESET+"\nSeu ataque é de"+colorama.Fore.RED+f" {self.playerStats["Ataque"]}"+colorama.Fore.RESET+f"""\
                     \nO {statsInimigo['Nome']} possui"""+colorama.Fore.LIGHTGREEN_EX+f""" {statsInimigo["Vida"]} de vida"""+colorama.Fore.RESET+" e "+colorama.Fore.LIGHTBLUE_EX+f"{statsInimigo["Energia"]} de Energia."+colorama.Fore.RESET)
             ETipoAtk, EDano = self.IaInimigos(inimigo)
             self.printer_local(f"Seu inimigo irá usar um {ETipoAtk} e dara "+colorama.Fore.RED+f"{EDano} de dano"+colorama.Fore.RESET+", como você reagirá?\n"+"---"*20+"\n[1]Ataque leve\n[2]Ataque pesado "+colorama.Fore.LIGHTBLUE_EX+"(2 Energia)"+colorama.Fore.RESET+" \n[3]Defesa")
@@ -69,19 +69,27 @@ Vamos iniciar o primeiro turno!""")
                         if not inimigo == "EsqueletoTutorial" and inimigo["Nome"] == "Vampiro" and ETipoAtk in ["Mordida leve","Mordida Fatal"]:
                             cura = EDano / 2
                             statsInimigo["Vida"] += cura
-                            self.printer_local(f"O ata que {ETipoAtk} cura o vampiro em "+colorama.Fore.LIGHTGREEN_EX+"{cura} de Vida."+colorama.Fore.RESET)
+                            self.printer_local(f"O ataque {ETipoAtk} cura o vampiro em "+colorama.Fore.LIGHTGREEN_EX+f"{cura} de Vida."+colorama.Fore.RESET)
+                        elif not inimigo == "EsqueletoTutorial" and inimigo["Nome"] == "Eternus, o Imortal":
+                            cura = (inimigo["Vida"]/50) + 5
+                            statsInimigo["Vida"]+=cura
+                            self.printer_local(f"Você obeserva as feridas dele se fechando, você não pode fazer nada. Ele se cura em "+colorama.Fore.LIGHTGREEN_EX+f"{cura} de Vida."+colorama.Fore.RESET)
                         time.sleep(1.5)
                         os.system('cls' if os.name == 'nt' else 'clear')
                     else:
                         self.printer_local(f"Você ataca o inimigo com um {escolha},tirando "+colorama.Fore.RED+f" {DanoPlr} de vida!"+colorama.Fore.RESET+f"\nEle não consegue reagir...")
                         break
                 case "Defesa":
-                    if ETipoAtk in ["Ataque leve","2x Ataque leve","Corte leve","Mordida leve"]:
+                    if ETipoAtk in ["Ataque leve","2x Ataque leve","Corte leve","Mordida leve","Soco Leve","Chuva de Socos leves"]:
                         self.printer_local("Você defendeu um ataque fraco completamente! Ignorando "+colorama.Fore.BLUE+f"{EDano} de dano."+colorama.Fore.RESET)
                     else:
                         DDano = EDano * 0.5
                         self.playerStats["Vida"] -= DDano
                         self.printer_local(f"Você defendeu um ataque pesado, recebeu apenas "+colorama.Fore.BLUE+f"{DDano} de dano! 50% de defesa!"+colorama.Fore.RESET)
+                        if not inimigo == "EsqueletoTutorial" and inimigo["Nome"] == "Eternus, o Imortal":
+                            cura = (inimigo["Vida"]/50) + 5
+                            statsInimigo["Vida"]+=cura
+                            self.printer_local(f"Você obeserva as feridas dele se fechando, você não pode fazer nada. Ele se cura em "+colorama.Fore.LIGHTGREEN_EX+f"{cura} de Vida."+colorama.Fore.RESET)
                     time.sleep(1.5)
                     os.system('cls' if os.name == 'nt' else 'clear')
             if statsInimigo["Vida"] <= 0 or self.playerStats["Vida"] <= 0:
@@ -92,12 +100,12 @@ Vamos iniciar o primeiro turno!""")
         else:
             self.printer_local(f"Você ganhou!! Você possui "+colorama.Fore.LIGHTGREEN_EX+f"{self.playerStats["Vida"]} de vida."+colorama.Fore.RESET)
             if inimigo != "EsqueletoTutorial":
-                if inimigo["Nome"] in ["Cavalheiro-Zumbi"]:
-                    quantidade = random.randint(2,4)
+                if inimigo["Nome"] in ["Cavalheiro-Zumbi","Lobisomem"]:
+                    quantidade = random.randint(1,2)
                     pots = loot.GerarLoot(quantidade)
                     goldDrop = loot.GerarGold("Dificil")
                 else:
-                    quantidade = random.randint(1,2)
+                    quantidade = random.randint(1,1)
                     goldDrop = loot.GerarGold("Facil")
                     pots = loot.GerarLoot(quantidade)
                 self.printer_local(colorama.Fore.LIGHTYELLOW_EX+f"Você dropou {goldDrop} de Gold!!!")
@@ -162,6 +170,20 @@ Vamos iniciar o primeiro turno!""")
                     Inimigo["Energia"]-=2
                     return "2x Mordida Pesada",(Inimigo["Dano"]*2) + (Inimigo["Vida"]/10)
                 return "Ataque leve",Inimigo["Dano"] + (Inimigo["Vida"]/10)
+            case "Eternus, o Imortal":
+                Inimigo["Energia"]+=1
+                if Inimigo["Energia"] >= 9 and chanceATK>70:
+                    Inimigo["Energia"]-=5
+                    return "Aniquilacao",Inimigo["Dano"]*4
+                elif chanceATK >= 60:
+                    return "Chuva de Socos leves",Inimigo["Dano"]*2
+                elif chanceATK>=50:
+                    return "Soco Leve", Inimigo["Dano"]
+                elif Inimigo["Energia"] >= 4 and chanceATK>=30:
+                    Inimigo["Energia"]-=5
+                    return "Soco Poderoso", Inimigo["Dano"]*1.5
+                return "Eternus te observa...",0
+    
                 
 
             
@@ -198,6 +220,9 @@ Vamos iniciar o primeiro turno!""")
         elif batalha == "Batalha Facil":
             inimigo_f = random.choice(["Zumbi","Esqueleto","Vampiro"])
             return self.scaledInimigos(inimigo=inimigo_f,dificuldade="Facil")
+        elif batalha == "SALA DE BOSS":
+            inimigo_f = "O Eterno imortal"
+            return self.scaledInimigos(inimigo=inimigo_f,dificuldade="Boss")
         
 
     def scaledInimigos(self,inimigo,dificuldade = None):
@@ -240,6 +265,14 @@ Vamos iniciar o primeiro turno!""")
                     "Nome":"Lobisomem",
                     "Vida":40 + (sala*7),
                     "Dano": 5 + (sala*1),
+                    "Energia": 0
+                }
+            },
+            "Boss":{
+                "O Eterno imortal":{
+                    "Nome":"Eternus, o Imortal",
+                    "Vida":700,
+                    "Dano":40,
                     "Energia": 0
                 }
             }

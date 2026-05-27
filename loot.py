@@ -2,12 +2,12 @@ import random
 
 loots = {
     "Pot De Vida":{
-        "Pocao Grande":{"Tipo":"Pocao Grande de Vida","Chance":80,"Aumento":35, "Stats":"VidaMax"},
-        "Pocao Media":{"Tipo":"Pocao Media de Vida","Chance":50, "Aumento":22, "Stats":"VidaMax"},
+        "Pocao Grande":{"Tipo":"Pocao Grande de Vida","Chance":90,"Aumento":35, "Stats":"VidaMax"},
+        "Pocao Media":{"Tipo":"Pocao Media de Vida","Chance":65, "Aumento":22, "Stats":"VidaMax"},
         "Pocao Pequena":{"Tipo":"Pocao Pequena de Vida","Chance":0,"Aumento":10,"Stats":"VidaMax"}},
     "Pot de Força":{
-        "Pocao Grande":{"Tipo":"Pocao Grande de Força","Chance":80,"Aumento":11,"Stats":"Ataque"},
-        "Pocao Media":{"Tipo":"Pocao Media de Força","Chance":50, "Aumento":6,"Stats":"Ataque"},
+        "Pocao Grande":{"Tipo":"Pocao Grande de Força","Chance":90,"Aumento":11,"Stats":"Ataque"},
+        "Pocao Media":{"Tipo":"Pocao Media de Força","Chance":65, "Aumento":6,"Stats":"Ataque"},
         "Pocao Pequena":{"Tipo":"Pocao Pequena de Força","Chance":0, "Aumento":3,"Stats":"Ataque"}},
 }
 

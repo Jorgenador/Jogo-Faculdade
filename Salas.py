@@ -8,12 +8,12 @@ class Salas():
 
     def GerarSalas(self):
         Salas = {
-            "Tesouro":99,
-            "Shop":1,
+            "Tesouro":80,
+            "Shop":55,
             "Batalha Facil":0
             }
         batalhaGarantida = {
-            "Batalha Dificil":80,
+            "Batalha Dificil":60,
             "Batalha Facil":0
         }
         luck = random.randrange(100)
