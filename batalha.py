@@ -34,7 +34,7 @@ Já que este esqueleto é bem fraco, vamos aprender os controles...
 [1] Para atacar
 [2] Para ataque forte (Consome 2 de energia, você gera 1 por turno)
 [3] Para defender! (Bloqueia completamente o dano de Ataques "Leves" e reduz pela metade o resto)
-Você fica mais forte através de poções! A cada Batalha os inimigos podem deixar poções, Adquirando em Tesouros ou utilizando Gold nos Shops!
+Você fica mais forte através de poções! A cada Batalha os inimigos podem deixar poções, Você pode comprar artefatos na loja e Poções na sala do tesouro!
 Vamos iniciar o primeiro turno!""")
             self.loop_batalha("EsqueletoTutorial",dHandler = cdialogo,bHandler=cbatalha)
         else:
@@ -101,7 +101,7 @@ Vamos iniciar o primeiro turno!""")
         else:
             self.printer_local(f"Você ganhou!! Você possui "+colorama.Fore.LIGHTGREEN_EX+f"{self.playerStats["Vida"]} de vida."+colorama.Fore.RESET)
             if inimigo != "EsqueletoTutorial" and inimigo["Nome"] == "Eternus, o Imortal":
-                self.printer_local(f"Você derrotou o chefe deste lugar, você observa uma  Porta fantasmagorica e voadora voando pela sala...\nVocê com muito esforço alcança ela... você atravessa a porta e se ve em um trono, o seu trono, você retornou ao seu imperio.\n Parabéns! Você venceu! Desculpa pela falta de conteudo e etc!")
+                self.printer_local(f"Você derrotou o chefe deste lugar, você observa uma  Porta fantasmagorica e voadora voando pela sala...\nVocê com muito esforço alcança ela... você atravessa a porta e se ve em um trono, o seu trono, você retornou ao seu imperio.\nParabéns! Você venceu! Desculpa pela falta de conteudo e etc!")
                 sys.exit()
             if inimigo != "EsqueletoTutorial":
                 if inimigo["Nome"] in ["Cavalheiro-Zumbi","Lobisomem"]:
