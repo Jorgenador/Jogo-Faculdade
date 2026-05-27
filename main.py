@@ -3,7 +3,9 @@ import batalha
 import random
 import loot
 import os
+import sys
 # Começo do desenvolvimento 25/05 as 20:00, basicamente 48 horas antes da deadline
+# Desenvolvido por Bernardo.
 
 dHandler = dialogos.CDialogos()
 bHandler = batalha.Batalhas()

@@ -3,6 +3,7 @@ import colorama
 import random
 import os
 import loot
+import sys
 
 class Batalhas:
 
@@ -99,6 +100,9 @@ Vamos iniciar o primeiro turno!""")
             self.printer_local("Você perdeu... acho que foi falta de habilidade...")
         else:
             self.printer_local(f"Você ganhou!! Você possui "+colorama.Fore.LIGHTGREEN_EX+f"{self.playerStats["Vida"]} de vida."+colorama.Fore.RESET)
+            if inimigo != "EsqueletoTutorial" and inimigo["Nome"] == "Eternus, o Imortal":
+                self.printer_local(f"Você derrotou o chefe deste lugar, você observa uma  Porta fantasmagorica e voadora voando pela sala...\nVocê com muito esforço alcança ela... você atravessa a porta e se ve em um trono, o seu trono, você retornou ao seu imperio.\n Parabéns! Você venceu! Desculpa pela falta de conteudo e etc!")
+                sys.exit()
             if inimigo != "EsqueletoTutorial":
                 if inimigo["Nome"] in ["Cavalheiro-Zumbi","Lobisomem"]:
                     quantidade = random.randint(1,2)
