@@ -11,10 +11,10 @@ class Batalhas:
         self.playerStats = {
             "Nome":"",
             "Sala":0,
-            "VidaMax":250,
-            "Vida":250,
-            "Ataque":200,
-            "Gold":1000,
+            "VidaMax":100,
+            "Vida":100,
+            "Ataque":6,
+            "Gold":0,
             "Energia":0
         }
 
